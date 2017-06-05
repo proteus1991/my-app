@@ -14,12 +14,23 @@ var refresh =function(){
 
 	refresh();
 
+	// add contact
    	$scope.addcontact = function(){
     	// console.log($scope.contact);
 
-    	$http.post('/contactlist',$scope.contact)
-    	// console.log(response.data)
-    	refresh();
+    	$http.post('/contactlist',$scope.contact).then(function(response){
+    	//console.log(response.data)
+    		refresh();
+    	});
 	};
+	//remove contact
+	$scope.remove = function(id){
+		console.log(id);
+		$http.delete('/contactlist/'+id).then(function(response){
+			refresh();
+		});
+	};
+
+
     
 }]);
