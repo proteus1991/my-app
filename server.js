@@ -1,34 +1,31 @@
-var express = require('express');
-var app = express();
+ var express = require('express');
+ var app = express();
+ var mongojs=require('mongojs');
+ var db=mongojs('contactlist',['contactlist']);
+ var bodyparser=require('body-parser');
 
 // app.get('/',function(req,res){
 // 	res.send("Hello world from my server.js")
 // });
 
 app.use(express.static(__dirname + "/public"));
+app.use(bodyparser.json());
 
 app.get('/contactlist',function(req,res){
 	console.log('Server got the message.')
-	person1 = {
-    	name:'Xiaohong Liu',
-    	email:'xliu151@uotttawa.ca',
-    	number:'(613)2763521'
-    };
-    person2 = {
-    	name:'Dan Zhou',
-    	email:'danzhou@gmail.com',
-    	number:'(613)2620149'
-    };
-    person3 = {
-    	name:'Zhiheng Yi',
-    	email:'Zhihengyi@gmail.com',
-    	number:'(613)6666666'
-    };
-var contactlist	= [person1,person2,person3];
-res.json(contactlist);
+    db.contactlist.find(function(err,docs){
+        console.log(docs);
+        res.json(docs);
+    });
 
 });
 
+app.post('/contactlist',function(req,res){
+    console.log(req.body);
+    db.contactlist.insert(req.body,function(err,doc){
+        res.json(doc);
+    });
+});
 
 
 app.listen(8080);
