@@ -1,0 +1,4 @@
+'/'
+app.get:acquire
+app.put:update
+app.push:creat
