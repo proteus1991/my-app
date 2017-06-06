@@ -30,7 +30,22 @@ var refresh =function(){
 			refresh();
 		});
 	};
+	$scope.edit = function(id){
+		$http.get('/contactlist/'+id).then(function(response){
+			$scope.contact = response.data;
+		});
+	};
 
+	$scope.update = function(){
+		console.log($scope.contact._id);
+		$http.put('/contactlist/'+$scope.contact._id, $scope.contact).then(function(response){
+			refresh();
+		});
+	};
+
+	$scope.clear =function(){
+		$scope.contact = "";
+	};
 
     
 }]);
